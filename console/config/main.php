@@ -18,6 +18,9 @@ return [
           ],
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'log' => [
             'targets' => [
                 [
@@ -25,6 +28,11 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+    ],
+    'modules' => [
+        'user' => [
+            'class' => 'dektrium\user\Module',
         ],
     ],
     'params' => $params,
