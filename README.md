@@ -53,3 +53,14 @@ frontend
 vendor/                  contains dependent 3rd-party packages
 environments/            contains environment-based overrides
 ```
+Features
+-------------------
+- <a href="https://github.com/dektrium/yii2-user">https://github.com/dektrium/yii2-user</a>
+
+Installation
+-------------------
+- Run command, composer update
+- Run command, php init, then choose 0
+- Update common/config/main-local.php, set db
+- Run command, php yii migrate/up --migrationPath=@vendor/dektrium/yii2-user/migrations
+- Run command, php yii user/create admin@gmail.com admin 123456
