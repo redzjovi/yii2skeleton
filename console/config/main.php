@@ -18,9 +18,7 @@ return [
           ],
     ],
     'components' => [
-        'authManager' => [
-            'class' => 'yii\rbac\DbManager',
-        ],
+        'authManager' => ['class' => 'dektrium\rbac\components\DbManager'],
         'log' => [
             'targets' => [
                 [
@@ -31,9 +29,8 @@ return [
         ],
     ],
     'modules' => [
-        'user' => [
-            'class' => 'dektrium\user\Module',
-        ],
+        'rbac' => ['class' => 'dektrium\rbac\RbacConsoleModule'],
+        'user' => ['class' => 'dektrium\user\Module'],
     ],
     'params' => $params,
 ];

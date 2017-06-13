@@ -7,6 +7,8 @@ class m170612_053259_initial_data extends Migration
 {
     public function safeUp()
     {
+        $this->addColumn('{{%user}}', 'status', $this->smallInteger()->notNull()->defaultValue(10)->after('email'));
+
         $user = new User();
         $user->username = 'admin';
         $user->email = 'redzjovi@gmail.com';
@@ -17,9 +19,8 @@ class m170612_053259_initial_data extends Migration
 
     public function safeDown()
     {
-        echo "m170612_053259_initial_data cannot be reverted.\n";
-
-        return false;
+        $this->dropColumn('{{%user}}', 'status');
+        User::deleteAll(['username' => 'admin']);
     }
 
     /*

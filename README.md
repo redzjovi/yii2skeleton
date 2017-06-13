@@ -55,6 +55,7 @@ environments/            contains environment-based overrides
 ```
 Features
 -------------------
+- <a href="https://github.com/dektrium/yii2-rbac">https://github.com/dektrium/yii2-rbac</a>
 - <a href="https://github.com/dektrium/yii2-user">https://github.com/dektrium/yii2-user</a>
 
 Installation
@@ -62,5 +63,6 @@ Installation
 - Run command, composer update
 - Run command, php init, then choose 0
 - Update common/config/main-local.php, set db
-- Run command, php yii migrate/up --migrationPath=@vendor/dektrium/yii2-user/migrations
-- Run command, php yii user/create admin@gmail.com admin 123456
+- Run command, php yii migrate/up 12 --migrationPath=@vendor/dektrium/yii2-user/migrations
+- Run command, php yii migrate/up 2
+- Run command, php yii migrate/up 1 --migrationPath=@yii/rbac/migrations
