@@ -64,5 +64,5 @@ Installation
 - Run command, php init, then choose 0
 - Update common/config/main-local.php, set db
 - Run command, php yii migrate/up 12 --migrationPath=@vendor/dektrium/yii2-user/migrations
-- Run command, php yii migrate/up 2
 - Run command, php yii migrate/up 1 --migrationPath=@yii/rbac/migrations
+- Run command, php yii migrate/up 2
