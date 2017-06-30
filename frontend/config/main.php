@@ -17,8 +17,7 @@ return [
         ],
         'user' => [
             'enableAutoLogin' => true,
-            // 'identityClass' => 'common\models\User',
-            'identityClass' => 'dektrium\user\models\User',
+            'identityClass' => 'common\models\User',
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'session' => [

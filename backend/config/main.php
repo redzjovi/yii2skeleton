@@ -11,23 +11,13 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [
-        'user' => [
-            'admins' => ['admin'],
-            'class' => 'dektrium\user\Module',
-            'enableConfirmation' => false,
-            'enableFlashMessages' => false,
-            'enableUnconfirmedLogin' => true,
-        ],
-    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
             'enableAutoLogin' => true,
-            // 'identityClass' => 'common\models\User',
-            'identityClass' => 'dektrium\user\models\User',
+            'identityClass' => 'common\models\User',
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [

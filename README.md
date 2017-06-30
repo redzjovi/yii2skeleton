@@ -55,12 +55,10 @@ environments/            contains environment-based overrides
 ```
 Features
 -------------------
-- <a href="https://github.com/dektrium/yii2-user">https://github.com/dektrium/yii2-user</a>
 
 Installation
 -------------------
 - Run command, composer update
 - Run command, php init, then choose 0
 - Update common/config/main-local.php, set db
-- Run command, php yii migrate/up 12 --migrationPath=@vendor/dektrium/yii2-user/migrations
 - Run command, php yii migrate/up 2
