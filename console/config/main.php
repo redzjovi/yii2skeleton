@@ -15,10 +15,16 @@ return [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
-          ],
+        ],
+        'migrate' => [
+            'class' => \yii\console\controllers\MigrateController::class,
+            'migrationNamespaces' => [
+                'Da\User\Migration',
+            ],
+        ],
     ],
     'components' => [
-        'authManager' => ['class' => 'dektrium\rbac\components\DbManager'],
+        'authManager' => ['class' => 'yii\rbac\DbManager'], 
         'log' => [
             'targets' => [
                 [
@@ -27,10 +33,6 @@ return [
                 ],
             ],
         ],
-    ],
-    'modules' => [
-        'rbac' => ['class' => 'dektrium\rbac\RbacConsoleModule'],
-        'user' => ['class' => 'dektrium\user\Module'],
     ],
     'params' => $params,
 ];

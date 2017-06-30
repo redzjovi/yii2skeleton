@@ -7,28 +7,30 @@ $params = array_merge(
 );
 
 return [
+    // 'container' => [
+    //     'definitions' => [
+    //         Da\User\Model\User::class => common\models\User::class,
+    //     ],
+    // ],
     'id' => 'app-backend',
+    'modules' => [
+        'user' => [
+            'allowUnconfirmedEmailLogin' => true,
+            'administrators' => ['superadmin'],
+            'class' => Da\User\Module::class,
+            'enableFlashMessages' => false,
+        ],
+    ],
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
-    'modules' => [
-        'user' => [
-            'admins' => ['admin'],
-            'admins' => ['superadmin'],
-            'class' => 'dektrium\user\Module',
-            'enableConfirmation' => false,
-            'enableFlashMessages' => false,
-            'enableUnconfirmedLogin' => true,
-        ],
-    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
             'enableAutoLogin' => true,
-            // 'identityClass' => 'common\models\User',
-            'identityClass' => 'dektrium\user\models\User',
+            'identityClass' => 'common\models\User',
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [

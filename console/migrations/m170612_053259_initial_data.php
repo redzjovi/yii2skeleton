@@ -39,16 +39,18 @@ class m170612_053259_initial_data extends Migration
 
         $user = new User();
         $user->username = 'superadmin';
-        $user->email = 'redzjovi@gmail.com';
+        $user->email = 'superadmin@email.com';
         $user->setPassword('superadmin');
         $user->generateAuthKey();
+        $user->confirmed_at = time();
         $user->save();
 
         $user = new User();
         $user->username = 'admin';
-        $user->email = 'admin@gmail.com';
+        $user->email = 'admin@email.com';
         $user->setPassword('admin');
         $user->generateAuthKey();
+        $user->confirmed_at = time();
         $user->save();
     }
 
