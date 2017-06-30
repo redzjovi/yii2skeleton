@@ -14,7 +14,6 @@ return [
     'modules' => [
         'user' => [
             'admins' => ['admin'],
-            'admins' => ['superadmin'],
             'class' => 'dektrium\user\Module',
             'enableConfirmation' => false,
             'enableFlashMessages' => false,

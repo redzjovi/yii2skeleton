@@ -18,7 +18,6 @@ return [
           ],
     ],
     'components' => [
-        'authManager' => ['class' => 'dektrium\rbac\components\DbManager'],
         'log' => [
             'targets' => [
                 [
@@ -29,7 +28,6 @@ return [
         ],
     ],
     'modules' => [
-        'rbac' => ['class' => 'dektrium\rbac\RbacConsoleModule'],
         'user' => ['class' => 'dektrium\user\Module'],
     ],
     'params' => $params,
