@@ -7,7 +7,20 @@ $params = array_merge(
 );
 
 return [
+    // 'container' => [
+    //     'definitions' => [
+    //         Da\User\Model\User::class => common\models\User::class,
+    //     ],
+    // ],
     'id' => 'app-backend',
+    'modules' => [
+        'user' => [
+            'allowUnconfirmedEmailLogin' => true,
+            'administrators' => ['superadmin'],
+            'class' => Da\User\Module::class,
+            'enableFlashMessages' => false,
+        ],
+    ],
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],

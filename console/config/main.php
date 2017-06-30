@@ -15,9 +15,16 @@ return [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
-          ],
+        ],
+        'migrate' => [
+            'class' => \yii\console\controllers\MigrateController::class,
+            'migrationNamespaces' => [
+                'Da\User\Migration',
+            ],
+        ],
     ],
     'components' => [
+        'authManager' => ['class' => 'yii\rbac\DbManager'], 
         'log' => [
             'targets' => [
                 [
