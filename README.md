@@ -55,6 +55,7 @@ environments/            contains environment-based overrides
 ```
 Features
 -------------------
+- [yii2-assets-auto-compress]https://github.com/skeeks-semenov/yii2-assets-auto-compress
 - [yii2-usuario](https://github.com/2amigos/yii2-usuario)
 
 Installation
