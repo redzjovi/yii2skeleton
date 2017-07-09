@@ -13,8 +13,8 @@ class m170612_053259_initial_data extends Migration
 
     public function safeDown()
     {
-        $this->deleteUser();
         $this->deleteRbac();
+        $this->deleteUser();
     }
 
     public function createRbac()
@@ -24,11 +24,15 @@ class m170612_053259_initial_data extends Migration
 
         $superadmin = $auth->createRole('superadmin');
         $auth->add($superadmin);
-        $user = User::findOne(['username' => 'superadmin']);
-        $auth->assign($superadmin, $user->id);
-
         $admin = $auth->createRole('admin');
         $auth->add($admin);
+        
+        $permission = $auth->createPermission('backend/wp-options');
+        $auth->add($permission);
+        $auth->addChild($superadmin, $permission);
+
+        $user = User::findOne(['username' => 'superadmin']);
+        $auth->assign($superadmin, $user->id);
         $user = User::findOne(['username' => 'admin']);
         $auth->assign($admin, $user->id);
     }
