@@ -34,5 +34,8 @@ return [
             ],
         ],
     ],
+    'modules' => [
+        'user' => ['class' => Da\User\Module::class],
+    ],
     'params' => $params,
 ];

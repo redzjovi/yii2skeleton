@@ -64,6 +64,6 @@ Installation
 - Run command, composer update
 - Run command, php init, then choose 0
 - Update common/config/main-local.php, set db
-- Run command, php yii migrate/up 4 --migrationNamespaces=Da\\User\\Migration
+- Run command, php yii migrate/up 5 --migrationPath=@vendor/2amigos/yii2-usuario/migrations
 - Run command, php yii migrate/up 1 --migrationPath=@yii/rbac/migrations
 - Run command, php yii migrate/up 3
