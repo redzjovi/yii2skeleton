@@ -19,11 +19,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name') ?>
 
+    <?= $form->field($model, 'link') ?>
+
+    <?= $form->field($model, 'auth_item_name') ?>
+
     <?= $form->field($model, 'parent_id') ?>
 
-    <?= $form->field($model, 'lft') ?>
+    <?php // echo $form->field($model, 'lft') ?>
 
-    <?= $form->field($model, 'rgt') ?>
+    <?php // echo $form->field($model, 'rgt') ?>
 
     <?php // echo $form->field($model, 'depth') ?>
 

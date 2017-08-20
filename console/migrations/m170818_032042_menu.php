@@ -21,6 +21,8 @@ class m170818_032042_menu extends Migration
             [
                 'id'=> $this->primaryKey(11),
                 'name'=> $this->string(255)->notNull(),
+                'link'=> $this->string(255)->notNull(),
+                'auth_item_name'=> $this->string(255)->null()->defaultValue(null),
                 'parent_id'=> $this->integer(11)->notNull(),
                 'lft'=> $this->integer(11)->notNull(),
                 'rgt'=> $this->integer(11)->notNull(),

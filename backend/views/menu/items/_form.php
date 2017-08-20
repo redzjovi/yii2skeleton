@@ -11,6 +11,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'auth_item_name')->textInput(['maxlength' => true]) ?>
+
     <?php if ($model->isNewRecord) {
         $model->parent_id = $menu->id;
     } ?>

@@ -19,7 +19,7 @@ class MenuSearch extends Menu
     {
         return [
             [['id', 'parent_id', 'lft', 'rgt', 'depth'], 'integer'],
-            [['name'], 'safe'],
+            [['name', 'link', 'auth_item_name'], 'safe'],
         ];
     }
 
@@ -66,7 +66,9 @@ class MenuSearch extends Menu
             'depth' => $this->depth,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'link', $this->link])
+            ->andFilterWhere(['like', 'auth_item_name', $this->auth_item_name]);
 
         return $dataProvider;
     }

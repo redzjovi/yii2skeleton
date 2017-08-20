@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use backend\assets\AppAsset;
+use common\models\Menu;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -11,6 +12,7 @@ use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
 
 AppAsset::register($this);
+$menu = new Menu();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -35,12 +37,26 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
-    if (! Yii::$app->user->isGuest && Yii::$app->user->identity->isAdmin) {
-        $menuItems[] = ['label' => Yii::t('usuario', 'Manage users'), 'url' => ['/user/admin']];
-    }
+
+
+    $menus = $menu->generateTree('Backend Top'); // menu
+    $menuItems = $menu->generateMenuItems($menus);
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav'],
+        'items' => (is_array($menuItems) ? $menuItems : []),
+    ]);
+
+    // NavBar::begin([
+    //     'brandLabel' => 'My Company',
+    //     'brandUrl' => Yii::$app->homeUrl,
+    //     'options' => [
+    //         'class' => 'navbar-inverse navbar-fixed-top',
+    //     ],
+    // ]);
+    $menus = $menu->generateTree('CMS'); // menu
+    $menuItems = $menu->generateMenuItems($menus);
+
+
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {

@@ -5,7 +5,6 @@ namespace backend\controllers;
 use common\models\Menu;
 use backend\models\MenuSearch;
 use Yii;
-use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -30,8 +29,15 @@ class MenuController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    ['actions' => ['create', 'delete', 'index', 'item-create', 'item-delete', 'item-update', 'item-reorder', 'item-view', 'update', 'view'], 'allow' => true, 'roles' => ['backend/menu']],
+                    ['allow' => true, 'roles' => ['@']],
+                ],
+            ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => \yii\filters\VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -50,6 +56,7 @@ class MenuController extends Controller
         $searchModel = new MenuSearch();
         $searchModel->parent_id = 1;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->setSort(['defaultOrder' => ['name' => SORT_ASC]]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -64,8 +71,6 @@ class MenuController extends Controller
      */
     public function actionView($id)
     {
-        Url::remember('', 'backend_menu_view');
-
         $searchModel = new MenuSearch();
         $searchModel->parent_id = $id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -161,11 +166,8 @@ class MenuController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(
-            Url::previous('backend_menu_view') ? Url::previous('backend_menu_view') : ['/menu', 'id' => $parent_id]
-        );
+        return $this->redirect(['/menu', 'id' => $parent_id]);
     }
-
 
     public function actionItemUpdate($id, $parent_id)
     {
@@ -173,9 +175,7 @@ class MenuController extends Controller
         $model->scenario = Menu::SCENARIO_CREATE_MENU_ITEM;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(
-                Url::previous('backend_menu_view') ? Url::previous('backend_menu_view') : ['/menu', 'id' => $parent_id]
-            );
+            return $this->redirect(['/menu/view', 'id' => $parent_id]);
         } else {
             return $this->render('/menu/items/update', [
                 'model' => $model,
