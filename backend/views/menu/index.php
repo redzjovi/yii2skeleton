@@ -1,7 +1,7 @@
 <?php
 
+use kartik\grid\GridView;
 use yii\helpers\Html;
-use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\MenuSearch */
@@ -19,11 +19,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Create Menu'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?php $kartikGrid = Yii::$app->params['kartikGrid'];
+    $kartikGrid['panel'] = false; ?>
+    <?= GridView::widget($kartikGrid + [
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'kartik\grid\SerialColumn'],
 
             // 'id',
             'name',
@@ -34,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'rgt',
             // 'depth',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'kartik\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

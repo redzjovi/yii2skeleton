@@ -1,10 +1,7 @@
 <?php
 
-use common\models\Menu;
-use slatiusa\nestable\Nestable;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Menu */
@@ -22,27 +19,33 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Reorder Items'), ['item-reorder', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?php $kartikGrid = Yii::$app->params['kartikGrid'];
+    $kartikGrid['toolbar'] = [
+        ['content' => Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['/menu/view', 'id' => $model->id], ['class' => 'btn btn-default', 'data-pjax' => 1, 'title' => Yii::t('kvgrid', 'Reset Grid')])],
+        '{toggleData}',
+    ]; ?>
+    <?= GridView::widget($kartikGrid + [
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'kartik\grid\SerialColumn'],
             // 'id',
             'name',
-            'link',
+            // 'link',
+            ['attribute' => 'link', 'contentOptions' => ['class' => 'text-wrap', 'style' => '']],
             'auth_item_name',
             // 'parent_id',
             // 'lft',
             // 'rgt',
             // 'depth',
             [
-                'class' => 'yii\grid\ActionColumn',
+                'class' => 'kartik\grid\ActionColumn',
                 'buttons' => [
                     'view' => function ($url, $model) {
-                        return Html::a('', ['/menu/item-view', 'id' => $model->id, 'parent_id' => $model->parent_id], ['class' => 'glyphicon glyphicon-eye-open']);
+                        return Html::a('', ['/menu/item-view', 'id' => $model->id, 'parent_id' => $model->parent_id], ['class' => 'glyphicon glyphicon-eye-open', 'data-pjax' => 0]);
                     },
                     'update' => function ($url, $model) {
-                        return Html::a('', ['/menu/item-update', 'id' => $model->id, 'parent_id' => $model->parent_id], ['class' => 'glyphicon glyphicon-pencil']);
+                        return Html::a('', ['/menu/item-update', 'id' => $model->id, 'parent_id' => $model->parent_id], ['class' => 'glyphicon glyphicon-pencil', 'data-pjax' => 0]);
                     },
                     'delete' => function ($url, $model) {
                         return Html::a('', ['/menu/item-delete', 'id' => $model->id, 'parent_id' => $model->parent_id], [

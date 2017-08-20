@@ -15,18 +15,18 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.4.0",
+        "2amigos/yii2-usuario": "~1.0",
+        "creocoder/yii2-nested-sets": "^0.9.0",
+        "insolita/yii2-migration-generator": "~2.3",
+        "jlorente/yii2-widget-remainingcharacters": "*",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-widgets": "^3.4",
+        "skeeks/yii2-assets-auto-compress": "*",
+        "slatiusa/yii2-nestable": "dev-master",
+        "symfony/var-dumper": "^3.3",
         "yiisoft/yii2": "~2.0.6",
         "yiisoft/yii2-bootstrap": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "2amigos/yii2-usuario": "~1.0",
-        "skeeks/yii2-assets-auto-compress": "*",
-        "insolita/yii2-migration-generator": "~2.3",
-        "creocoder/yii2-nested-sets": "^0.9.0",
-        "slatiusa/yii2-nestable": "dev-master",
-        "jlorente/yii2-widget-remainingcharacters": "*",
-        "kartik-v/yii2-widgets": "^3.4",
-        "symfony/var-dumper": "^3.3",
-        "kartik-v/yii2-grid": "@dev"
+        "yiisoft/yii2-swiftmailer": "~2.0.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

@@ -14,7 +14,8 @@ use yii\web\NotFoundHttpException;
  */
 class MenuController extends Controller
 {
-    public function actions() {
+    public function actions()
+    {
         return [
             'nodeMove' => [
                 'class' => 'slatiusa\nestable\NodeMoveAction',
@@ -166,7 +167,7 @@ class MenuController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['/menu', 'id' => $parent_id]);
+        return $this->redirect(['/menu/view', 'id' => $parent_id]);
     }
 
     public function actionItemUpdate($id, $parent_id)

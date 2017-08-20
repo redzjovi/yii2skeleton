@@ -14,7 +14,6 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
-use yii\filters\VerbFilter;
 
 /**
  * ProductsController implements the CRUD actions for Products model.
@@ -34,7 +33,7 @@ class ProductsController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => \yii\filters\VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
                 ],
