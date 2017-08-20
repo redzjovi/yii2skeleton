@@ -1,0 +1,6 @@
+Undone :
+1. test delete from parent
+2. translation
+- Create Menu Items
+- Parent name
+- Reorder Menu Items

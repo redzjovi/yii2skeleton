@@ -18,6 +18,7 @@ use Yii;
 class Menu extends \yii\db\ActiveRecord
 {
     const SCENARIO_CREATE_MENU = 'create_menu';
+    const SCENARIO_CREATE_MENU_ITEM = 'create_menu_item';
 
     /**
      * @inheritdoc
@@ -31,6 +32,7 @@ class Menu extends \yii\db\ActiveRecord
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_CREATE_MENU] = ['name'];
+        $scenarios[self::SCENARIO_CREATE_MENU_ITEM] = ['name', 'parent_id'];
         return $scenarios;
     }
 
@@ -46,6 +48,10 @@ class Menu extends \yii\db\ActiveRecord
 
             [['name'], 'required', 'on' => self::SCENARIO_CREATE_MENU],
             [['name'], 'string', 'max' => 255, 'on' => self::SCENARIO_CREATE_MENU],
+
+            [['name', 'parent_id'], 'required', 'on' => self::SCENARIO_CREATE_MENU_ITEM],
+            [['parent_id'], 'integer', 'on' => self::SCENARIO_CREATE_MENU_ITEM],
+            [['name'], 'string', 'max' => 255, 'on' => self::SCENARIO_CREATE_MENU_ITEM],
         ];
     }
 
@@ -58,10 +64,22 @@ class Menu extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'name' => Yii::t('app', 'Name'),
             'parent_id' => Yii::t('app', 'Parent ID'),
+            'parent_name' => Yii::t('app', 'Parent Name'),
             'lft' => Yii::t('app', 'Lft'),
             'rgt' => Yii::t('app', 'Rgt'),
             'depth' => Yii::t('app', 'Depth'),
         ];
+    }
+
+    public function getAfterName()
+    {
+        $strip = str_repeat('---', $this->depth - 2);
+        return $strip.' After '.$this->name;
+    }
+
+    public function getParent()
+    {
+        return $this->hasOne(Menu::className(), ['id' => 'parent_id']);
     }
 
     public function behaviors()
