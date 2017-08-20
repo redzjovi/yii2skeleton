@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "054c43d2761a590768667efd240c3ad8",
+    "content-hash": "307fadf9b9b24817d5673c45f338d4eb",
     "packages": [
         {
             "name": "2amigos/yii2-selectize-widget",
@@ -2185,6 +2185,41 @@
                 "yii2"
             ],
             "time": "2014-11-09T19:54:17+00:00"
+        },
+        {
+            "name": "mbrowniebytes/yii2-clean-assets",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mbrowniebytes/yii2-clean-assets.git",
+                "reference": "ef92efe1e1c10b353e05f48faf975d0ad6c1e5b5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mbrowniebytes/yii2-clean-assets/zipball/ef92efe1e1c10b353e05f48faf975d0ad6c1e5b5",
+                "reference": "ef92efe1e1c10b353e05f48faf975d0ad6c1e5b5",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "mbrowniebytes\\yii2cleanassets\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Clean yii2 web/assets/ directory",
+            "keywords": [
+                "assets",
+                "clean",
+                "yii2"
+            ],
+            "time": "2017-08-07T20:01:09+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -5683,8 +5718,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "slatiusa/yii2-nestable": 20,
-        "kartik-v/yii2-grid": 20
+        "kartik-v/yii2-grid": 20,
+        "slatiusa/yii2-nestable": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

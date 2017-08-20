@@ -21,6 +21,7 @@
         "jlorente/yii2-widget-remainingcharacters": "*",
         "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-widgets": "^3.4",
+        "mbrowniebytes/yii2-clean-assets": "0.1.0",
         "skeeks/yii2-assets-auto-compress": "*",
         "slatiusa/yii2-nestable": "dev-master",
         "symfony/var-dumper": "^3.3",

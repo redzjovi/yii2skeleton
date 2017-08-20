@@ -6,7 +6,7 @@ return [
     'components' => [
         'assetsAutoCompress' => [
             'class' => '\skeeks\yii2\assetsAuto\AssetsAutoCompressComponent',
-            'enabled' => true,
+            'enabled' => YII_ENV_PROD,
             'htmlCompress' => true,
             'htmlCompressOptions' => [
                 'extra' => true,
