@@ -60,12 +60,14 @@ Features
 - [yii2-nestable](https://github.com/ASlatius/yii2-nestable)
 - [yii2-nested-sets](https://github.com/creocoder/yii2-nested-sets)
 - [yii2-usuario](https://github.com/2amigos/yii2-usuario)
+- [yii2-widget-remainingcharacters](https://github.com/jlorente/yii2-widget-remainingcharacters)
 
 Installation
 -------------------
+- Run command, composer global require "fxp/composer-asset-plugin:^1.0"
 - Run command, composer update
 - Run command, php init, then choose 0
 - Update common/config/main-local.php, set db
 - Run command, php yii migrate/up 5 --migrationPath=@vendor/2amigos/yii2-usuario/migrations
 - Run command, php yii migrate/up 1 --migrationPath=@yii/rbac/migrations
-- Run command, php yii migrate/up 5
+- Run command, php yii migrate/up 6

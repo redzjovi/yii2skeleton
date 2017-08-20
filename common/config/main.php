@@ -24,11 +24,19 @@ return [
                     'class' => 'yii\i18n\PhpMessageSource',
                     'fileMap' => ['app' => 'app.php'],
                 ],
+                'kvgrid' => [
+                    'basePath' => '@vendor/kartik-v/yii2-grid/messages',
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'forceTranslation' => true,
+                ],
             ],
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
         ],
+    ],
+    'modules' => [
+        'gridview' => ['class' => '\kartik\grid\Module'],
     ],
 ];

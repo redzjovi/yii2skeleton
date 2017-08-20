@@ -35,6 +35,11 @@ class m170612_053259_initial_data extends Migration
         $auth->add($permission);
         $auth->addChild($superadmin, $permission);
 
+        $permission = $auth->createPermission('backend/products');
+        $auth->add($permission);
+        $auth->addChild($superadmin, $permission);
+        $auth->addChild($admin, $permission);
+
         $permission = $auth->createPermission('backend/top');
         $auth->add($permission);
         $auth->addChild($superadmin, $permission);
