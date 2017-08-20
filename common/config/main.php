@@ -13,6 +13,7 @@ return [
                 'no-comments' => true,
             ],
         ],
+        'assetManager' => ['forceCopy' => YII_ENV_DEV],
         'authManager' => ['class' => 'yii\rbac\DbManager'],
         'cache' => [
             'class' => 'yii\caching\FileCache',
