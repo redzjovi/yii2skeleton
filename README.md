@@ -72,4 +72,4 @@ Installation
 - Run command, php yii clean-assets
 - Run command, php yii migrate/up 5 --migrationPath=@vendor/2amigos/yii2-usuario/migrations
 - Run command, php yii migrate/up 1 --migrationPath=@yii/rbac/migrations
-- Run command, php yii migrate/up 6
+- Run command, php yii migrate/up 8
