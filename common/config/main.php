@@ -6,11 +6,28 @@ return [
     'components' => [
         'assetsAutoCompress' => [
             'class' => '\skeeks\yii2\assetsAuto\AssetsAutoCompressComponent',
-            'enabled' => YII_ENV_PROD,
-            'htmlCompress' => true,
-            'htmlCompressOptions' => [
-                'extra' => true,
-                'no-comments' => true,
+            'enabled' => true,
+            'htmlCompressOptions' => ['extra' => true, 'no-comments' => true],
+            'readFileTimeout' => 1,
+        ] + (
+            YII_ENV_PROD ?
+            [
+                'cssFileCompile' => false,
+                'cssFileCompress' => false,
+                'jsFileCompile' => false,
+                'jsFileCompress' => false,
+            ] :
+            []
+        ),
+        'assetManager' => ['forceCopy' => YII_ENV_DEV],
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'github' => [
+                    'class' => 'Da\User\AuthClient\Github',
+                    'clientId' => 'e103ef32566476231660',
+                    'clientSecret' => '8aa035d5ff0cfb4820fd891a11660cafa42641ae',
+                ],
             ],
         ],
         'assetManager' => ['forceCopy' => YII_ENV_DEV],
@@ -38,6 +55,7 @@ return [
         ],
     ],
     'modules' => [
+        'debug' => (YII_ENV_DEV ? ['allowedIPs' => ['*'], 'class' => 'yii\debug\Module'] : []),
         'gridview' => ['class' => '\kartik\grid\Module'],
     ],
 ];
