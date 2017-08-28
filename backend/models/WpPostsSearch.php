@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use common\models\User;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -12,6 +13,9 @@ use common\models\WpPosts;
  */
 class WpPostsSearch extends WpPosts
 {
+    public $author_name;
+    public $updated_at_date;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +23,8 @@ class WpPostsSearch extends WpPosts
     {
         return [
             [['id', 'author', 'comment_count'], 'integer'],
-            [['title', 'name', 'content', 'type', 'mime_type', 'status', 'created_at', 'updated_at', 'comment_status'], 'safe'],
+            [['author_name'], 'string'],
+            [['title', 'name', 'content', 'type', 'mime_type', 'status', 'created_at', 'updated_at', 'updated_at_date', 'comment_status'], 'safe'],
         ];
     }
 
@@ -41,13 +46,18 @@ class WpPostsSearch extends WpPosts
      */
     public function search($params)
     {
-        $query = WpPosts::find();
+        $query = WpPosts::find()->with(['user']);
+        $query->joinWith(['user']);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        $dataProvider->sort->attributes['author'] = [
+            'asc' => [User::tableName().'.email' => SORT_ASC],
+            'desc' => [User::tableName().'.email' => SORT_DESC],
+        ];
 
         $this->load($params);
 
@@ -61,10 +71,12 @@ class WpPostsSearch extends WpPosts
         $query->andFilterWhere([
             'id' => $this->id,
             'author' => $this->author,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            // 'created_at' => $this->created_at,
+            // 'updated_at' => $this->updated_at,
             'comment_count' => $this->comment_count,
         ]);
+
+        if ($this->updated_at_date) { $query->andFilterWhere(['DATE('.self::tableName().'.updated_at)' => $this->updated_at_date]); }
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'name', $this->name])
