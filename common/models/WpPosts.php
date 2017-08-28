@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "wp_posts".
@@ -20,7 +21,7 @@ use Yii;
  * @property string $comment_status
  * @property integer $comment_count
  */
-class WpPosts extends \yii\db\ActiveRecord
+class WpPosts extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -36,7 +37,7 @@ class WpPosts extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['author', 'title', 'name', 'content', 'mime_type', 'created_at', 'comment_count'], 'required'],
+            [['author', 'title', 'name', 'content', 'mime_type', 'status', 'created_at', 'comment_status', 'comment_count'], 'required'],
             [['author', 'comment_count'], 'integer'],
             [['title', 'content', 'type', 'status', 'comment_status'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
@@ -63,5 +64,78 @@ class WpPosts extends \yii\db\ActiveRecord
             'comment_status' => Yii::t('app', 'Comment Status'),
             'comment_count' => Yii::t('app', 'Comment Count'),
         ];
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($insert) {
+            $this->name = \yii\helpers\Inflector::slug($this->title.' '.$this->id);
+            $this->update();
+        }
+    }
+
+    public function beforeSave($insert)
+    {
+        if (! parent::beforeSave($insert)) {
+            return false;
+        }
+
+        $this->name = \yii\helpers\Inflector::slug($this->title.' '.$this->id);
+        return true;
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \yii\behaviors\TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+                // if you're using datetime instead of UNIX timestamp:
+                'value' => new \yii\db\Expression('NOW()'),
+            ],
+        ];
+    }
+
+    public function getCommentStatusOptions()
+    {
+        return [
+            'open' => Yii::t('app', 'Open'),
+            'closed' => Yii::t('app', 'Closed'),
+        ];
+    }
+
+    public function getStatusOptions($type = '')
+    {
+        if ($type == 'all') {
+            return [
+                'draft' => Yii::t('app', 'Draft'),
+                'publish' => Yii::t('app', 'Publish'),
+                'trash' => Yii::t('app', 'Trash'),
+                'deleted' => Yii::t('app', 'Deleted'),
+            ];
+        } else {
+            return [
+                'draft' => Yii::t('app', 'Draft'),
+                'publish' => Yii::t('app', 'Publish'),
+                'trash' => Yii::t('app', 'Trash'),
+            ];
+        }
+    }
+
+    public function getTypeOptions()
+    {
+        return [
+            'attachment' => Yii::t('app', 'Author'),
+            'page' => Yii::t('app', 'Page'),
+            'post' => Yii::t('app', 'Post'),
+        ];
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(\common\models\User::className(), ['id' => 'author']);
     }
 }

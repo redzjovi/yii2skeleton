@@ -2,12 +2,12 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\WpPosts;
+use backend\models\WpPostsForm;
 use backend\models\WpPostsSearch;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * WpPostsController implements the CRUD actions for WpPosts model.
@@ -20,6 +20,12 @@ class WpPostsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    ['actions' => ['create', 'delete', 'index', 'update', 'view'], 'allow' => true, 'roles' => ['backend.wp-posts']],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -63,15 +69,15 @@ class WpPostsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new WpPosts();
+        $model = new WpPostsForm();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -115,7 +121,7 @@ class WpPostsController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = WpPosts::findOne($id)) !== null) {
+        if (($model = WpPostsForm::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

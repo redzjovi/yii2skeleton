@@ -29,7 +29,7 @@ class ProductsController extends Controller
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
-                    ['actions' => ['create', 'delete', 'image-delete', 'image-upload', 'index', 'update', 'view'], 'allow' => true, 'roles' => ['backend/products']],
+                    ['actions' => ['create', 'delete', 'image-delete', 'image-upload', 'index', 'update', 'view'], 'allow' => true, 'roles' => ['backend.products']],
                 ],
             ],
             'verbs' => [

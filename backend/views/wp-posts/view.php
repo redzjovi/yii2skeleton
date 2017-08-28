@@ -3,9 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\WpPosts */
-
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Wp Posts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -28,18 +25,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'author',
+            // 'id',
+            ['attribute' => 'author', 'value' => $model->user->email],
             'title:ntext',
             'name',
             'content:ntext',
-            'type',
-            'mime_type',
-            'status',
+            // 'type',
+            // 'mime_type',
+            ['attribute' => 'status', 'value' => $model->statusOptions[$model->status]],
             'created_at',
             'updated_at',
-            'comment_status',
-            'comment_count',
+            ['attribute' => 'comment_status', 'value' => $model->commentStatusOptions[$model->comment_status]],
+            // 'comment_count',
         ],
     ]) ?>
 
