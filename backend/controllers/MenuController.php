@@ -33,7 +33,7 @@ class MenuController extends Controller
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
-                    ['actions' => ['create', 'delete', 'index', 'item-create', 'item-delete', 'item-update', 'item-reorder', 'item-view', 'update', 'view'], 'allow' => true, 'roles' => ['backend/menu']],
+                    ['actions' => ['create', 'delete', 'index', 'item-create', 'item-delete', 'item-update', 'item-reorder', 'item-view', 'update', 'view'], 'allow' => true, 'roles' => ['backend.menu']],
                     ['allow' => true, 'roles' => ['@']],
                 ],
             ],
