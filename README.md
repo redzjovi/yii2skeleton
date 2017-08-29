@@ -56,16 +56,20 @@ environments/            contains environment-based overrides
 Features
 -------------------
 - [yii2-assets-auto-compress](https://github.com/skeeks-semenov/yii2-assets-auto-compress)
+- [yii2-clean-assets](https://github.com/mbrowniebytes/yii2-clean-assets)
 - [yii2-migrik](https://github.com/Insolita/yii2-migrik)
 - [yii2-nestable](https://github.com/ASlatius/yii2-nestable)
 - [yii2-nested-sets](https://github.com/creocoder/yii2-nested-sets)
 - [yii2-usuario](https://github.com/2amigos/yii2-usuario)
+- [yii2-widget-remainingcharacters](https://github.com/jlorente/yii2-widget-remainingcharacters)
 
 Installation
 -------------------
+- Run command, composer global require "fxp/composer-asset-plugin:^1.0"
 - Run command, composer update
 - Run command, php init, then choose 0
 - Update common/config/main-local.php, set db
+- Run command, php yii clean-assets
 - Run command, php yii migrate/up 5 --migrationPath=@vendor/2amigos/yii2-usuario/migrations
 - Run command, php yii migrate/up 1 --migrationPath=@yii/rbac/migrations
-- Run command, php yii migrate/up 5
+- Run command, php yii migrate/up 8

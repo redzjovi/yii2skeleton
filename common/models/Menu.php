@@ -53,7 +53,7 @@ class Menu extends \yii\db\ActiveRecord
             [['name'], 'required', 'on' => self::SCENARIO_CREATE_MENU],
             [['name', 'auth_item_name'], 'string', 'max' => 255, 'on' => self::SCENARIO_CREATE_MENU],
 
-            [['name', 'link', 'parent_id'], 'required', 'on' => self::SCENARIO_CREATE_MENU_ITEM],
+            [['name', 'parent_id'], 'required', 'on' => self::SCENARIO_CREATE_MENU_ITEM],
             [['parent_id'], 'integer', 'on' => self::SCENARIO_CREATE_MENU_ITEM],
             [['name', 'link', 'auth_item_name'], 'string', 'max' => 255, 'on' => self::SCENARIO_CREATE_MENU_ITEM],
         ];
