@@ -3,13 +3,11 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-/* @var $this yii\web\View */
-/* @var $model common\models\WpTermTaxonomy */
-
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Wp Term Taxonomies'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Wp Tags'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="wp-term-taxonomy-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -28,12 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+            // 'id',
             'name',
             'slug',
-            'taxonomy',
+            // 'taxonomy',
             'description:ntext',
-            'parent',
+            // 'parent',
             'count',
         ],
     ]) ?>

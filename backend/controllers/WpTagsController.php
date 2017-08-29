@@ -2,17 +2,17 @@
 
 namespace backend\controllers;
 
+use backend\models\WpTagsSearch;
+use common\models\WpTags;
 use Yii;
-use common\models\WpTermTaxonomy;
-use backend\models\WpTermTaxonomySearch;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
- * WpTermTaxonomyController implements the CRUD actions for WpTermTaxonomy model.
+ * WpTagsController implements the CRUD actions for WpTags model.
  */
-class WpTermTaxonomyController extends Controller
+class WpTagsController extends Controller
 {
     /**
      * @inheritdoc
@@ -20,6 +20,12 @@ class WpTermTaxonomyController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'rules' => [
+                    ['actions' => ['create', 'delete', 'index', 'update', 'view'], 'allow' => true, 'roles' => ['backend.wp-tags']],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -30,12 +36,12 @@ class WpTermTaxonomyController extends Controller
     }
 
     /**
-     * Lists all WpTermTaxonomy models.
+     * Lists all WpTags models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new WpTermTaxonomySearch();
+        $searchModel = new WpTagsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +51,7 @@ class WpTermTaxonomyController extends Controller
     }
 
     /**
-     * Displays a single WpTermTaxonomy model.
+     * Displays a single WpTags model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +63,13 @@ class WpTermTaxonomyController extends Controller
     }
 
     /**
-     * Creates a new WpTermTaxonomy model.
+     * Creates a new WpTags model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new WpTermTaxonomy();
+        $model = new WpTags('backend.wp-tags');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +81,7 @@ class WpTermTaxonomyController extends Controller
     }
 
     /**
-     * Updates an existing WpTermTaxonomy model.
+     * Updates an existing WpTags model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +100,7 @@ class WpTermTaxonomyController extends Controller
     }
 
     /**
-     * Deletes an existing WpTermTaxonomy model.
+     * Deletes an existing WpTags model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +113,15 @@ class WpTermTaxonomyController extends Controller
     }
 
     /**
-     * Finds the WpTermTaxonomy model based on its primary key value.
+     * Finds the WpTags model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return WpTermTaxonomy the loaded model
+     * @return WpTags the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = WpTermTaxonomy::findOne($id)) !== null) {
+        if (($model = WpTags::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

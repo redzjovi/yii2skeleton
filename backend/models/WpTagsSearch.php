@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\WpTermTaxonomy;
+use common\models\WpTags;
 
 /**
- * WpTermTaxonomySearch represents the model behind the search form about `common\models\WpTermTaxonomy`.
+ * WpTagsSearch represents the model behind the search form about `common\models\WpTags`.
  */
-class WpTermTaxonomySearch extends WpTermTaxonomy
+class WpTagsSearch extends WpTags
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class WpTermTaxonomySearch extends WpTermTaxonomy
      */
     public function search($params)
     {
-        $query = WpTermTaxonomy::find();
+        $query = WpTags::find()->where(['taxonomy' => 'tag']);
 
         // add conditions that should always apply here
 
@@ -66,7 +66,6 @@ class WpTermTaxonomySearch extends WpTermTaxonomy
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'taxonomy', $this->taxonomy])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
