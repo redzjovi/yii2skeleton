@@ -114,6 +114,6 @@ class m170818_032119_menuDataInsert extends Migration
 
     public function safeDown()
     {
-        $this->truncateTable('{{%menu}} CASCADE');
+        $this->truncateTable('{{%menu}}');
     }
 }
