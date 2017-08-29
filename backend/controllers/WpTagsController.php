@@ -69,7 +69,7 @@ class WpTagsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new WpTags('backend.wp-tags');
+        $model = new WpTags(['scenario' => 'backend.wp-tags']);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
