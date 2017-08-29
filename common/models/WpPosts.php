@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\Inflector;
 
 /**
  * This is the model class for table "wp_posts".
@@ -69,18 +70,19 @@ class WpPosts extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {
-            $this->name = \yii\helpers\Inflector::slug($this->title.' '.$this->id);
-            $this->update();
+            $this->name = Inflector::slug($this->title);
+            if (self::find()->where(['<>', 'id', $this->id])->andWhere(['name' => $this->name])->andWhere(['type' => 'post'])->exists()) {
+                $this->name = Inflector::slug($this->name.' '.$this->id);
+                $this->update();
+            }
         }
     }
 
     public function beforeSave($insert)
     {
-        if (! parent::beforeSave($insert)) {
-            return false;
+        if ($insert) {
+            $this->name = Inflector::slug($this->title.' '.$this->id);
         }
-
-        $this->name = \yii\helpers\Inflector::slug($this->title.' '.$this->id);
         return true;
     }
 
