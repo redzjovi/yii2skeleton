@@ -53,7 +53,7 @@ class m170612_053259_initial_data extends Migration
         $auth->add($permission);
         $auth->addChild($superadmin, $permission);
 
-        $permission = $auth->createPermission('backend/wp-posts');
+        $permission = $auth->createPermission('backend.wp-posts');
         $auth->add($permission);
         $auth->addChild($superadmin, $permission);
 

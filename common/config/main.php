@@ -24,7 +24,7 @@ return [
             'class' => 'yii\authclient\Collection',
             'clients' => [
                 'github' => [
-                    'class' => 'Da\User\AuthClient\Github',
+                    'class' => 'Da\User\AuthClient\GitHub',
                     'clientId' => 'e103ef32566476231660',
                     'clientSecret' => '8aa035d5ff0cfb4820fd891a11660cafa42641ae',
                 ],
