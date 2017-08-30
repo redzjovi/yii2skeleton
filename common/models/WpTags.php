@@ -41,7 +41,7 @@ class WpTags extends WpTermTaxonomy
         if ($insert) {
             if (self::find()->where(['<>', 'id', $this->id])->andWhere(['slug' => $this->slug])->andWhere(['taxonomy' => 'tag'])->exists()) {
                 $this->slug = Inflector::slug($this->slug.' '.$this->id);
-                $this->save();
+                $this->update();
             }
         }
     }

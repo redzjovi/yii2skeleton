@@ -2,8 +2,8 @@
 
 namespace backend\controllers;
 
-use backend\models\WpPostsForm;
 use backend\models\WpPostsSearch;
+use common\models\WpPosts;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -69,7 +69,7 @@ class WpPostsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new WpPostsForm();
+        $model = new WpPosts(['scenario' => 'backend.wp-posts']);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -89,6 +89,7 @@ class WpPostsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->scenario = 'backend.wp-posts';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -121,7 +122,7 @@ class WpPostsController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = WpPostsForm::findOne($id)) !== null) {
+        if (($model = WpPosts::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -1,6 +1,7 @@
 <?php
 return [
     'Active' => 'Active',
+    'Attachment' => 'Attachment',
     'Auth Item Name' => 'Auth Item Name',
     'Author' => 'Author',
     'Back' => 'Back',
