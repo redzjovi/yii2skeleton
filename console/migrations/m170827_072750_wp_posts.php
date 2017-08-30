@@ -27,13 +27,13 @@ class m170827_072750_wp_posts extends Migration
                 'type'=> "enum('attachment', 'page', 'post') NOT NULL DEFAULT 'post'",
                 'mime_type'=> $this->string(255)->notNull(),
                 'status'=> "enum('draft', 'publish', 'trash', 'deleted') NOT NULL DEFAULT 'publish'",
-                'created_at'=> $this->datetime()->notNull(),
-                'updated_at'=> $this->timestamp()->notNull()->defaultExpression("CURRENT_TIMESTAMP"),
+                'created_at'=> $this->timestamp()->null()->defaultValue(null),
+                'updated_at'=> $this->timestamp()->null()->defaultValue(null),
                 'comment_status'=> "enum('open', 'closed') NULL DEFAULT 'open'",
                 'comment_count'=> $this->integer(11)->notNull(),
-            ],$tableOptions
+            ],
+            $tableOptions
         );
-
     }
 
     public function safeDown()

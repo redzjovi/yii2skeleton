@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\helpers\Inflector;
 
 /**
@@ -38,12 +39,19 @@ class WpPosts extends ActiveRecord
     public function rules()
     {
         return [
-            [['author', 'title', 'name', 'content', 'mime_type', 'status', 'created_at', 'comment_status', 'comment_count'], 'required'],
+            [['author', 'title', 'name', 'mime_type', 'status', 'created_at', 'comment_status', 'comment_count'], 'required'],
             [['author', 'comment_count'], 'integer'],
             [['title', 'content', 'type', 'status', 'comment_status'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'mime_type'], 'string', 'max' => 255],
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['backend.wp-posts'] = ['author', 'title', 'status', 'comment_status'];
+        return $scenarios;
     }
 
     /**
@@ -80,25 +88,19 @@ class WpPosts extends ActiveRecord
 
     public function beforeSave($insert)
     {
-        if ($insert) {
-            $this->name = Inflector::slug($this->title.' '.$this->id);
-        }
-        return true;
-    }
+        $this->name = Inflector::slug($this->title);
 
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => \yii\behaviors\TimestampBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-                // if you're using datetime instead of UNIX timestamp:
-                'value' => new \yii\db\Expression('NOW()'),
-            ],
-        ];
+        if ($this->isNewRecord) {
+            $this->created_at = new Expression('NOW()');
+        } else if ($this->isNewRecord) {
+            if (self::find()->where(['<>', 'id', $this->id])->andWhere(['name' => $this->name])->andWhere(['type' => 'post'])->exists()) {
+                $this->name = Inflector::slug($this->name.' '.$this->id);
+            }
+        }
+
+        $this->updated_at = new Expression('NOW()');
+
+        return true;
     }
 
     public function getCommentStatusOptions()
@@ -130,7 +132,7 @@ class WpPosts extends ActiveRecord
     public function getTypeOptions()
     {
         return [
-            'attachment' => Yii::t('app', 'Author'),
+            'attachment' => Yii::t('app', 'Attachment'),
             'page' => Yii::t('app', 'Page'),
             'post' => Yii::t('app', 'Post'),
         ];
