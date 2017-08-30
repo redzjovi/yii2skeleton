@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\WpTags;
+use common\models\WpCategories;
 
 /**
- * WpTagsSearch represents the model behind the search form about `common\models\WpTags`.
+ * WpCategoriesSearch represents the model behind the search form about `common\models\WpCategories`.
  */
-class WpTagsSearch extends WpTags
+class WpCategoriesSearch extends WpCategories
 {
     /**
      * @inheritdoc
@@ -41,12 +41,13 @@ class WpTagsSearch extends WpTags
      */
     public function search($params)
     {
-        $query = WpTags::find()->taxonomyTag();
+        $query = WpCategories::find()->taxonomyCategory();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['name' => SORT_ASC]],
         ]);
 
         $this->load($params);
