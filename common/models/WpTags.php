@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\WpTagsQuery;
 use common\models\WpTermTaxonomy;
 use Yii;
 use yii\helpers\Inflector;
@@ -39,9 +40,9 @@ class WpTags extends WpTermTaxonomy
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {
-            if (self::find()->where(['<>', 'id', $this->id])->andWhere(['slug' => $this->slug])->andWhere(['taxonomy' => 'tag'])->exists()) {
+            if (self::find()->where(['<>', 'id', $this->id])->andWhere(['slug' => $this->slug])->taxonomyTag()->exists()) {
                 $this->slug = Inflector::slug($this->slug.' '.$this->id);
-                $this->save();
+                $this->update();
             }
         }
     }
@@ -51,11 +52,41 @@ class WpTags extends WpTermTaxonomy
         $this->slug = Inflector::slug($this->name);
 
         if (! $this->isNewRecord) {
-            if (self::find()->where(['<>', 'id', $this->id])->andWhere(['slug' => $this->slug])->andWhere(['taxonomy' => 'tag'])->exists()) {
+            if (self::find()->where(['<>', 'id', $this->id])->andWhere(['slug' => $this->slug])->taxonomyTag()->exists()) {
                 $this->slug = Inflector::slug($this->slug.' '.$this->id);
             }
         }
 
         return true;
+    }
+
+    public static function find()
+    {
+        return new WpTagsQuery(get_called_class());
+    }
+
+    /**
+     * @param array $names
+     * @return array $WpTags
+     */
+    public function createTag($names = [])
+    {
+        $WpTags = [];
+
+        if (is_array($names)) {
+            foreach ($names as $name) {
+                $model = self::find()->where(['=', 'name', $name])->taxonomyTag()->one();
+                if ($model == false) {
+                    $model = new WpTags();
+                    $model->scenario = 'backend.wp-tags';
+                    $model->name = $name;
+                    $model->taxonomy = 'tag';
+                    $model->save();
+                }
+                $WpTags[] = $model;
+            }
+        }
+
+        return $WpTags;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 return [
     'Active' => 'Active',
+    'Attachment' => 'Attachment',
     'Auth Item Name' => 'Auth Item Name',
     'Author' => 'Author',
     'Back' => 'Back',
@@ -44,6 +45,7 @@ return [
     'SLug' => 'Slug',
     'Status' => 'Status',
     'Stock' => 'Stock',
+    'Tags' => 'Tags',
     'Taxonomy' => 'Taxonomy',
     'Title' => 'Title',
     'Trash' => 'Trash',
