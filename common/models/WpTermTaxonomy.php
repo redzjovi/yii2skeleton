@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\WpTermRelationships;
 use Yii;
 
 /**
@@ -31,7 +32,7 @@ class WpTermTaxonomy extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'slug', 'taxonomy', 'description', 'parent', 'count'], 'required'],
+            [['name', 'slug', 'taxonomy', 'parent', 'count'], 'required'],
             [['description'], 'string'],
             [['parent', 'count'], 'integer'],
             [['name', 'slug', 'taxonomy'], 'string', 'max' => 255],
@@ -52,5 +53,15 @@ class WpTermTaxonomy extends \yii\db\ActiveRecord
             'parent' => Yii::t('app', 'Parent'),
             'count' => Yii::t('app', 'Count'),
         ];
+    }
+
+    public function calculateCount($id)
+    {
+        $count = WpTermRelationships::find(['term_taxonomy_id' => $id])->count();
+
+        if ($model = self::find($id)->one()) {
+            $model->count = $count;
+            $model->save();
+        }
     }
 }

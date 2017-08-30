@@ -45,6 +45,7 @@ return [
     'SLug' => 'Slug',
     'Status' => 'Status',
     'Stock' => 'Stock',
+    'Tags' => 'Tags',
     'Taxonomy' => 'Taxonomy',
     'Title' => 'Title',
     'Trash' => 'Trash',

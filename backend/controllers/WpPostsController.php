@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use backend\models\WpPostsSearch;
 use common\models\WpPosts;
+use common\models\WpTags;
+use common\models\WpTermRelationships;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -72,6 +74,12 @@ class WpPostsController extends Controller
         $model = new WpPosts(['scenario' => 'backend.wp-posts']);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $WpTags = new WpTags();
+            $term_taxonomies = $WpTags->createTag($model->tags);
+
+            $WpTermRelationships = new WpTermRelationships();
+            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -92,6 +100,12 @@ class WpPostsController extends Controller
         $model->scenario = 'backend.wp-posts';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $WpTags = new WpTags();
+            $term_taxonomies = $WpTags->createTag($model->tags);
+
+            $WpTermRelationships = new WpTermRelationships();
+            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies);
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
