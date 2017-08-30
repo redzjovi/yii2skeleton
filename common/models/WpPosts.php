@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\models\WpTermRelationships;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
@@ -25,6 +26,8 @@ use yii\helpers\Inflector;
  */
 class WpPosts extends ActiveRecord
 {
+    public $tags;
+
     /**
      * @inheritdoc
      */
@@ -42,7 +45,7 @@ class WpPosts extends ActiveRecord
             [['author', 'title', 'name', 'mime_type', 'status', 'created_at', 'comment_status', 'comment_count'], 'required'],
             [['author', 'comment_count'], 'integer'],
             [['title', 'content', 'type', 'status', 'comment_status'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'tags'], 'safe'],
             [['name', 'mime_type'], 'string', 'max' => 255],
         ];
     }
@@ -50,7 +53,7 @@ class WpPosts extends ActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['backend.wp-posts'] = ['author', 'title', 'status', 'comment_status'];
+        $scenarios['backend.wp-posts'] = ['author', 'title', 'content', 'status', 'comment_status', 'tags'];
         return $scenarios;
     }
 
@@ -72,6 +75,7 @@ class WpPosts extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'comment_status' => Yii::t('app', 'Comment Status'),
             'comment_count' => Yii::t('app', 'Comment Count'),
+            'tags' => Yii::t('app', 'Tags'),
         ];
     }
 
@@ -141,5 +145,10 @@ class WpPosts extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(\common\models\User::className(), ['id' => 'author']);
+    }
+
+    public function getWpTermRelationships()
+    {
+        return $this->hasMany(WpTermRelationships::className(), ['post_id' => 'id']);
     }
 }
