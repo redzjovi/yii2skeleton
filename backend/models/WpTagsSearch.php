@@ -58,15 +58,13 @@ class WpTagsSearch extends WpTags
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'parent' => $this->parent,
-            'count' => $this->count,
-        ]);
-
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query
+            ->andFilterWhere(['=', 'id', $this->id])
+            ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['=', 'parent', $this->parent])
+            ->andFilterWhere(['=', 'count', $this->count]);
 
         return $dataProvider;
     }
