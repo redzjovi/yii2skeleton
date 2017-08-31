@@ -1,12 +1,9 @@
 <?php
 
-// use common\models\WpTags;
 use kartik\grid\GridView;
-// use kartik\widgets\Select2;
-// use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-$this->title = Yii::t('app', 'Wp Tags');
+$this->title = Yii::t('app', 'Wp Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -16,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Wp Tag'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Create Wp Category'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php $kartikGrid = Yii::$app->params['kartikGrid'];
@@ -33,16 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             // 'id',
             'name',
-            // [
-            //     'attribute' => 'name',
-            //     'filter' => Select2::widget([
-            //         'attribute' => 'name',
-            //         'data' => ArrayHelper::map(WpTags::find()->select(['id', 'name'])->taxonomyTag()->orderBy(['name' => SORT_ASC])->asArray()->all(), 'name', 'name'),
-            //         'model' => $searchModel,
-            //         'options' => ['placeholder' => ''],
-            //         'pluginOptions' => ['allowClear' => true],
-            //     ]),
-            // ],
             'slug',
             // 'taxonomy',
             ['attribute' => 'description', 'contentOptions' => ['class' => 'text-wrap']],

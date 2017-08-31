@@ -5,7 +5,6 @@ use yii\db\Migration;
 
 class m170818_032119_menuDataInsert extends Migration
 {
-
     public function init()
     {
         $this->db = 'db';
@@ -25,7 +24,7 @@ class m170818_032119_menuDataInsert extends Migration
                     'auth_item_name' => '',
                     'parent_id' => '0',
                     'lft' => '1',
-                    'rgt' => '20',
+                    'rgt' => '22',
                     'depth' => '0',
                 ],
                 [
@@ -34,8 +33,8 @@ class m170818_032119_menuDataInsert extends Migration
                     'link' => '',
                     'auth_item_name' => '',
                     'parent_id' => '1',
-                    'lft' => '12',
-                    'rgt' => '19',
+                    'lft' => '14',
+                    'rgt' => '21',
                     'depth' => '1',
                 ],
                 [
@@ -44,8 +43,8 @@ class m170818_032119_menuDataInsert extends Migration
                     'link' => '/user/admin',
                     'auth_item_name' => 'backend.user',
                     'parent_id' => '2',
-                    'lft' => '16',
-                    'rgt' => '17',
+                    'lft' => '18',
+                    'rgt' => '19',
                     'depth' => '3',
                 ],
                 [
@@ -54,8 +53,8 @@ class m170818_032119_menuDataInsert extends Migration
                     'link' => '/menu',
                     'auth_item_name' => 'backend.menu',
                     'parent_id' => '2',
-                    'lft' => '14',
-                    'rgt' => '15',
+                    'lft' => '16',
+                    'rgt' => '17',
                     'depth' => '3',
                 ],
                 [
@@ -64,8 +63,8 @@ class m170818_032119_menuDataInsert extends Migration
                     'link' => '#',
                     'auth_item_name' => 'backend.cms',
                     'parent_id' => '2',
-                    'lft' => '13',
-                    'rgt' => '18',
+                    'lft' => '15',
+                    'rgt' => '20',
                     'depth' => '2',
                 ],
                 [
@@ -75,7 +74,7 @@ class m170818_032119_menuDataInsert extends Migration
                     'auth_item_name' => null,
                     'parent_id' => '1',
                     'lft' => '2',
-                    'rgt' => '11',
+                    'rgt' => '13',
                     'depth' => '1',
                 ],
                 [
@@ -83,7 +82,7 @@ class m170818_032119_menuDataInsert extends Migration
                     'name' => 'Products',
                     'link' => '/products',
                     'auth_item_name' => 'backend.products',
-                    'parent_id' => '7',
+                    'parent_id' => '6',
                     'lft' => '4',
                     'rgt' => '5',
                     'depth' => '3',
@@ -93,9 +92,9 @@ class m170818_032119_menuDataInsert extends Migration
                     'name' => 'Backend Top',
                     'link' => '#',
                     'auth_item_name' => 'backend.top',
-                    'parent_id' => '7',
+                    'parent_id' => '6',
                     'lft' => '3',
-                    'rgt' => '10',
+                    'rgt' => '12',
                     'depth' => '2',
                 ],
                 [
@@ -103,7 +102,7 @@ class m170818_032119_menuDataInsert extends Migration
                     'name' => 'Wp Posts',
                     'link' => '/wp-posts',
                     'auth_item_name' => 'backend.wp-posts',
-                    'parent_id' => '7',
+                    'parent_id' => '6',
                     'lft' => '6',
                     'rgt' => '7',
                     'depth' => '3',
@@ -113,7 +112,17 @@ class m170818_032119_menuDataInsert extends Migration
                     'name' => 'Wp Tags',
                     'link' => '/wp-tags',
                     'auth_item_name' => 'backend.wp-tags',
-                    'parent_id' => '7',
+                    'parent_id' => '6',
+                    'lft' => '10',
+                    'rgt' => '11',
+                    'depth' => '3',
+                ],
+                [
+                    'id' => '11',
+                    'name' => 'Wp Categories',
+                    'link' => '/wp-categories',
+                    'auth_item_name' => 'backend.wp-categories',
+                    'parent_id' => '6',
                     'lft' => '8',
                     'rgt' => '9',
                     'depth' => '3',
