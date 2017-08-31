@@ -1,6 +1,9 @@
 <?php
 
+// use common\models\WpTags;
 use kartik\grid\GridView;
+// use kartik\widgets\Select2;
+// use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Wp Tags');
@@ -30,6 +33,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
             // 'id',
             'name',
+            // [
+            //     'attribute' => 'name',
+            //     'filter' => Select2::widget([
+            //         'attribute' => 'name',
+            //         'data' => ArrayHelper::map(WpTags::find()->select(['id', 'name'])->taxonomyTag()->orderBy(['name' => SORT_ASC])->asArray()->all(), 'name', 'name'),
+            //         'model' => $searchModel,
+            //         'options' => ['placeholder' => ''],
+            //         'pluginOptions' => ['allowClear' => true],
+            //     ]),
+            // ],
             'slug',
             // 'taxonomy',
             ['attribute' => 'description', 'contentOptions' => ['class' => 'text-wrap']],
