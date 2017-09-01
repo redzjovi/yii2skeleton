@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\WpPostsSearch;
+use common\models\WpCategories;
 use common\models\WpPosts;
 use common\models\WpTags;
 use common\models\WpTermRelationships;
@@ -74,11 +75,15 @@ class WpPostsController extends Controller
         $model = new WpPosts(['scenario' => 'backend.wp-posts']);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $WpTags = new WpTags();
-            $term_taxonomies = $WpTags->createTag($model->tags);
-
+            $WpCategories = new WpCategories();
+            $term_taxonomies = $WpCategories->selectCategories($model->categories);
             $WpTermRelationships = new WpTermRelationships();
-            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies);
+            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies, 'category');
+
+            $WpTags = new WpTags();
+            $term_taxonomies = $WpTags->createTags($model->tags);
+            $WpTermRelationships = new WpTermRelationships();
+            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies, 'tag');
 
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -100,11 +105,15 @@ class WpPostsController extends Controller
         $model->scenario = 'backend.wp-posts';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $WpTags = new WpTags();
-            $term_taxonomies = $WpTags->createTag($model->tags);
-
+            $WpCategories = new WpCategories();
+            $term_taxonomies = $WpCategories->selectCategories($model->categories);
             $WpTermRelationships = new WpTermRelationships();
-            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies);
+            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies, 'category');
+
+            $WpTags = new WpTags();
+            $term_taxonomies = $WpTags->createTags($model->tags);
+            $WpTermRelationships = new WpTermRelationships();
+            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies, 'tag');
 
             return $this->redirect(['view', 'id' => $model->id]);
         } else {

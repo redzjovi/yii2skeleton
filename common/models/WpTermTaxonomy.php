@@ -59,7 +59,7 @@ class WpTermTaxonomy extends \yii\db\ActiveRecord
     {
         $count = WpTermRelationships::find(['term_taxonomy_id' => $id])->count();
 
-        if ($model = self::find($id)->one()) {
+        if ($model = self::findOne($id)) {
             $model->count = $count;
             $model->save();
         }

@@ -25,21 +25,21 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
         return $array;
     }
 
-    public static function buildTree($data = [], $parent = 0)
+    public static function buildTree($elements = [], $parent = 0)
     {
-        $tree = array();
+        $branch = array();
 
-        foreach ($data as $d) {
-            if ($d['parent'] == $parent)  {
-                $children = self::buildTree($data, $d['id']);
-                if (! empty($children))  {
-                    $d['child'] = $children;
+        foreach ($elements as $element) {
+            if ($element['parent'] == $parent) {
+                $children = self::buildTree($elements, $element['id']);
+                if ($children)  {
+                    $element['child'] = $children;
                 }
-                $tree[] = $d;
+                $branch[] = $element;
             }
         }
 
-        return $tree;
+        return $branch;
     }
 
     public static function changeKeyName($array, $oldkey, $newkey)
@@ -73,21 +73,18 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
         return $array;
     }
 
-    public static function printTree($tree, $prefixType = '-', $r = 0, $p = null, $data = [])
+    public static function printTree($elements, $prefix = '-', $parent = 0, $branch = [])
     {
-        foreach ($tree as $i => $t) {
-            $prefix = ($t['parent'] == 0) ? '' : str_repeat($prefixType, $r).' ';
-            $data[$t['id']] = $t;
-            $data[$t['id']]['name_tree'] = $prefix.$t['name'];
-            if ($t['parent'] == $p) {
-                // reset $r
-                $r = 0;
-            }
-            if (isset($t['child'])) {
-                $data = self::printTree($t['child'], $prefixType, ++$r, $t['parent'], $data);
+        foreach ($elements as $element) {
+            $tree_prefix = ($element['parent'] == 0) ? '' : $prefix;
+            $branch[$element['id']] = $element;
+            $branch[$element['id']]['tree_name'] = $tree_prefix.$element['name'];
+            $branch[$element['id']]['tree_prefix'] = $tree_prefix;
+            if (isset($element['child'])) {
+                $branch = self::printTree($element['child'], $tree_prefix.$prefix, $element['parent'], $branch);
             }
         }
 
-        return $data;
+        return $branch;
     }
 }

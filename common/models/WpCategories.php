@@ -21,10 +21,12 @@ use yii\helpers\Inflector;
  */
 class WpCategories extends WpTermTaxonomy
 {
+    public $treePrefix = '--';
+
     public function rules()
     {
         return [
-            [['name', 'slug', 'taxonomy', 'count'], 'required'],
+            [['name', 'slug', 'taxonomy'], 'required'],
             [['description'], 'string'],
             [['parent', 'count'], 'integer'],
             [['name', 'slug', 'taxonomy'], 'string', 'max' => 255],
@@ -34,7 +36,7 @@ class WpCategories extends WpTermTaxonomy
     public function scenarios()
     {
 		$scenarios = parent::scenarios();
-        $scenarios['backend.wp-categories'] = ['name', 'taxonomy', 'description', 'parent'];
+        $scenarios['backend.wp-categories'] = ['name', 'taxonomy', 'description', 'parent', 'count'];
         return $scenarios;
     }
 
@@ -57,6 +59,8 @@ class WpCategories extends WpTermTaxonomy
                 $this->slug = Inflector::slug($this->slug.' '.$this->id);
             }
         }
+
+        $this->parent = intval($this->parent);
 
         return true;
     }
@@ -98,7 +102,31 @@ class WpCategories extends WpTermTaxonomy
         $WpCategories = $query->taxonomyCategory()->orderBy(['name' => SORT_ASC])->asArray()->all();
 
         $tree = ArrayHelper::buildTree($WpCategories);
-        $treeOptions = ArrayHelper::printTree($tree, '--');
+        $treeOptions = ArrayHelper::printTree($tree, $this->treePrefix);
         return $treeOptions;
+    }
+
+    /**
+     * @param array $ids
+     * @return array $WpCategories
+     */
+    public function selectCategories($ids = [])
+    {
+        $WpCategories = [];
+
+        if (is_array($ids)) {
+            foreach ($ids as $id) {
+                if ($model = self::findOne($id)) {
+                    $WpCategories[] = $model;
+                }
+            }
+        }
+
+        return $WpCategories;
+    }
+
+    public function setTreePrefix($value)
+    {
+        $this->treePrefix = $value;
     }
 }

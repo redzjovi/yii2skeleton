@@ -1,2 +1,3 @@
 body { margin-top: 70px; }
+.categories-container { border: 1px solid #ddd; min-height: 50px; max-height: 200px; overflow: auto; padding: 0 10px; }
 .text-wrap { white-space: normal !important; }

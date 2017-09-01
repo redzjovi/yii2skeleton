@@ -26,6 +26,7 @@ use yii\helpers\Inflector;
  */
 class WpPosts extends ActiveRecord
 {
+    public $categories;
     public $tags;
 
     /**
@@ -45,7 +46,7 @@ class WpPosts extends ActiveRecord
             [['author', 'title', 'name', 'mime_type', 'status', 'created_at', 'comment_status', 'comment_count'], 'required'],
             [['author', 'comment_count'], 'integer'],
             [['title', 'content', 'type', 'status', 'comment_status'], 'string'],
-            [['created_at', 'updated_at', 'tags'], 'safe'],
+            [['created_at', 'updated_at', 'categories', 'tags'], 'safe'],
             [['name', 'mime_type'], 'string', 'max' => 255],
         ];
     }
@@ -53,7 +54,7 @@ class WpPosts extends ActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['backend.wp-posts'] = ['author', 'title', 'content', 'status', 'comment_status', 'tags'];
+        $scenarios['backend.wp-posts'] = ['author', 'title', 'content', 'status', 'comment_status', 'categories', 'tags'];
         return $scenarios;
     }
 
@@ -77,6 +78,16 @@ class WpPosts extends ActiveRecord
             'comment_count' => Yii::t('app', 'Comment Count'),
             'tags' => Yii::t('app', 'Tags'),
         ];
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        $WpTermRelationships = WpTermRelationships::find()->where(['post_id' => $this->id])->all();
+        foreach ($WpTermRelationships as $WpTermRelationship) {
+            $this->categories[] = $WpTermRelationship->wpTermTaxonomy->id;
+            $this->tags[] = $WpTermRelationship->wpTermTaxonomy->name;
+        }
     }
 
     public function afterSave($insert, $changedAttributes)
