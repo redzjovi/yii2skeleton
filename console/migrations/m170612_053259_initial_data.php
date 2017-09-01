@@ -49,6 +49,11 @@ class m170612_053259_initial_data extends Migration
         $auth->add($permission);
         $auth->addChild($superadmin, $permission);
 
+        $permission = $auth->createPermission('backend.wp-categories');
+        $auth->add($permission);
+        $auth->addChild($superadmin, $permission);
+        $auth->addChild($admin, $permission);
+        
         $permission = $auth->createPermission('backend.wp-options');
         $auth->add($permission);
         $auth->addChild($superadmin, $permission);
@@ -56,6 +61,12 @@ class m170612_053259_initial_data extends Migration
         $permission = $auth->createPermission('backend.wp-posts');
         $auth->add($permission);
         $auth->addChild($superadmin, $permission);
+        $auth->addChild($admin, $permission);
+
+        $permission = $auth->createPermission('backend.wp-tags');
+        $auth->add($permission);
+        $auth->addChild($superadmin, $permission);
+        $auth->addChild($admin, $permission);
 
         $user = User::findOne(['username' => 'superadmin']);
         $auth->assign($superadmin, $user->id);

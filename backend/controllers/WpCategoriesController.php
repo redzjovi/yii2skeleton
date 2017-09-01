@@ -2,20 +2,17 @@
 
 namespace backend\controllers;
 
-use backend\models\WpPostsSearch;
+use backend\models\WpCategoriesSearch;
 use common\models\WpCategories;
-use common\models\WpPosts;
-use common\models\WpTags;
-use common\models\WpTermRelationships;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * WpPostsController implements the CRUD actions for WpPosts model.
+ * WpCategoriesController implements the CRUD actions for WpCategories model.
  */
-class WpPostsController extends Controller
+class WpCategoriesController extends Controller
 {
     /**
      * @inheritdoc
@@ -26,7 +23,7 @@ class WpPostsController extends Controller
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
                 'rules' => [
-                    ['actions' => ['create', 'delete', 'index', 'update', 'view'], 'allow' => true, 'roles' => ['backend.wp-posts']],
+                    ['actions' => ['create', 'delete', 'index', 'update', 'view'], 'allow' => true, 'roles' => ['backend.wp-categories']],
                 ],
             ],
             'verbs' => [
@@ -39,12 +36,12 @@ class WpPostsController extends Controller
     }
 
     /**
-     * Lists all WpPosts models.
+     * Lists all WpCategories models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new WpPostsSearch();
+        $searchModel = new WpCategoriesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -54,7 +51,7 @@ class WpPostsController extends Controller
     }
 
     /**
-     * Displays a single WpPosts model.
+     * Displays a single WpCategories model.
      * @param integer $id
      * @return mixed
      */
@@ -66,35 +63,25 @@ class WpPostsController extends Controller
     }
 
     /**
-     * Creates a new WpPosts model.
+     * Creates a new WpCategories model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new WpPosts(['scenario' => 'backend.wp-posts']);
-
+        $model = new WpCategories(['scenario' => 'backend.wp-categories']);
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $WpCategories = new WpCategories();
-            $term_taxonomies = $WpCategories->selectCategories($model->categories);
-            $WpTermRelationships = new WpTermRelationships();
-            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies, 'category');
-
-            $WpTags = new WpTags();
-            $term_taxonomies = $WpTags->createTags($model->tags);
-            $WpTermRelationships = new WpTermRelationships();
-            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies, 'tag');
-
             return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
-     * Updates an existing WpPosts model.
+     * Updates an existing WpCategories model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -102,19 +89,8 @@ class WpPostsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->scenario = 'backend.wp-posts';
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $WpCategories = new WpCategories();
-            $term_taxonomies = $WpCategories->selectCategories($model->categories);
-            $WpTermRelationships = new WpTermRelationships();
-            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies, 'category');
-
-            $WpTags = new WpTags();
-            $term_taxonomies = $WpTags->createTags($model->tags);
-            $WpTermRelationships = new WpTermRelationships();
-            $WpTermRelationships->createWpTermRelationships($model->id, $term_taxonomies, 'tag');
-
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -124,7 +100,7 @@ class WpPostsController extends Controller
     }
 
     /**
-     * Deletes an existing WpPosts model.
+     * Deletes an existing WpCategories model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -137,15 +113,15 @@ class WpPostsController extends Controller
     }
 
     /**
-     * Finds the WpPosts model based on its primary key value.
+     * Finds the WpCategories model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return WpPosts the loaded model
+     * @return WpCategories the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = WpPosts::findOne($id)) !== null) {
+        if (($model = WpCategories::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

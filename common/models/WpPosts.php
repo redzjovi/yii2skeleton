@@ -2,8 +2,11 @@
 
 namespace common\models;
 
+use common\models\WpTermRelationships;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
+use yii\helpers\Inflector;
 
 /**
  * This is the model class for table "wp_posts".
@@ -23,6 +26,9 @@ use yii\db\ActiveRecord;
  */
 class WpPosts extends ActiveRecord
 {
+    public $categories;
+    public $tags;
+
     /**
      * @inheritdoc
      */
@@ -37,12 +43,19 @@ class WpPosts extends ActiveRecord
     public function rules()
     {
         return [
-            [['author', 'title', 'name', 'content', 'mime_type', 'status', 'created_at', 'comment_status', 'comment_count'], 'required'],
+            [['author', 'title', 'name', 'mime_type', 'status', 'created_at', 'comment_status', 'comment_count'], 'required'],
             [['author', 'comment_count'], 'integer'],
             [['title', 'content', 'type', 'status', 'comment_status'], 'string'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'categories', 'tags'], 'safe'],
             [['name', 'mime_type'], 'string', 'max' => 255],
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['backend.wp-posts'] = ['author', 'title', 'content', 'status', 'comment_status', 'categories', 'tags'];
+        return $scenarios;
     }
 
     /**
@@ -63,40 +76,46 @@ class WpPosts extends ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'comment_status' => Yii::t('app', 'Comment Status'),
             'comment_count' => Yii::t('app', 'Comment Count'),
+            'tags' => Yii::t('app', 'Tags'),
         ];
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        $WpTermRelationships = WpTermRelationships::find()->where(['post_id' => $this->id])->all();
+        foreach ($WpTermRelationships as $WpTermRelationship) {
+            $this->categories[] = $WpTermRelationship->wpTermTaxonomy->id;
+            $this->tags[] = $WpTermRelationship->wpTermTaxonomy->name;
+        }
     }
 
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {
-            $this->name = \yii\helpers\Inflector::slug($this->title.' '.$this->id);
-            $this->update();
+            $this->name = Inflector::slug($this->title);
+            if (self::find()->where(['<>', 'id', $this->id])->andWhere(['name' => $this->name])->andWhere(['type' => 'post'])->exists()) {
+                $this->name = Inflector::slug($this->name.' '.$this->id);
+                $this->update();
+            }
         }
     }
 
     public function beforeSave($insert)
     {
-        if (! parent::beforeSave($insert)) {
-            return false;
+        $this->name = Inflector::slug($this->title);
+
+        if ($this->isNewRecord) {
+            $this->created_at = new Expression('NOW()');
+        } else if ($this->isNewRecord) {
+            if (self::find()->where(['<>', 'id', $this->id])->andWhere(['name' => $this->name])->andWhere(['type' => 'post'])->exists()) {
+                $this->name = Inflector::slug($this->name.' '.$this->id);
+            }
         }
 
-        $this->name = \yii\helpers\Inflector::slug($this->title.' '.$this->id);
-        return true;
-    }
+        $this->updated_at = new Expression('NOW()');
 
-    public function behaviors()
-    {
-        return [
-            [
-                'class' => \yii\behaviors\TimestampBehavior::className(),
-                'attributes' => [
-                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
-                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
-                ],
-                // if you're using datetime instead of UNIX timestamp:
-                'value' => new \yii\db\Expression('NOW()'),
-            ],
-        ];
+        return true;
     }
 
     public function getCommentStatusOptions()
@@ -128,7 +147,7 @@ class WpPosts extends ActiveRecord
     public function getTypeOptions()
     {
         return [
-            'attachment' => Yii::t('app', 'Author'),
+            'attachment' => Yii::t('app', 'Attachment'),
             'page' => Yii::t('app', 'Page'),
             'post' => Yii::t('app', 'Post'),
         ];
@@ -137,5 +156,10 @@ class WpPosts extends ActiveRecord
     public function getUser()
     {
         return $this->hasOne(\common\models\User::className(), ['id' => 'author']);
+    }
+
+    public function getWpTermRelationships()
+    {
+        return $this->hasMany(WpTermRelationships::className(), ['post_id' => 'id']);
     }
 }

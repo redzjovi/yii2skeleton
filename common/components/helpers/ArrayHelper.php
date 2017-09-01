@@ -25,6 +25,23 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
         return $array;
     }
 
+    public static function buildTree($elements = [], $parent = 0)
+    {
+        $branch = array();
+
+        foreach ($elements as $element) {
+            if ($element['parent'] == $parent) {
+                $children = self::buildTree($elements, $element['id']);
+                if ($children)  {
+                    $element['child'] = $children;
+                }
+                $branch[] = $element;
+            }
+        }
+
+        return $branch;
+    }
+
     public static function changeKeyName($array, $oldkey, $newkey)
     {
         if (is_array($array)) {
@@ -54,5 +71,20 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
         }
 
         return $array;
+    }
+
+    public static function printTree($elements, $prefix = '-', $parent = 0, $branch = [])
+    {
+        foreach ($elements as $element) {
+            $tree_prefix = ($element['parent'] == 0) ? '' : $prefix;
+            $branch[$element['id']] = $element;
+            $branch[$element['id']]['tree_name'] = $tree_prefix.$element['name'];
+            $branch[$element['id']]['tree_prefix'] = $tree_prefix;
+            if (isset($element['child'])) {
+                $branch = self::printTree($element['child'], $tree_prefix.$prefix, $element['parent'], $branch);
+            }
+        }
+
+        return $branch;
     }
 }
