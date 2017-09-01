@@ -1,6 +1,8 @@
 <?php
 
+use common\models\WpCategories;
 use common\models\WpTags;
+use common\models\WpTermRelationships;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -26,7 +28,22 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'comment_status')->dropDownList($model->getCommentStatusOptions()); ?>
 
-    <?php $model->tags = ArrayHelper::map($model->wpTermRelationships, 'id', 'wpTermRelationshipName'); ?>
+    <?php $WpCategories = new WpCategories();
+    $WpCategories->setTreePrefix('&nbsp;&nbsp;&nbsp;');
+    $categoriesOptions = $WpCategories->getCategoriesTreeOptions(); ?>
+    <?= $form->field($model, 'categories')->checkboxList(
+        ArrayHelper::map($categoriesOptions, 'id', 'name'),
+        [
+            'class' => 'categories-container',
+            'item' => function ($index, $label, $name, $checked, $value) use ($categoriesOptions) {
+                return '<div class="checkbox">'.
+                    $categoriesOptions[$value]['tree_prefix'].
+                    Html::checkbox($name, $checked, ['label' => $label, 'value' => $value]).
+                '</div>';
+            },
+        ]
+    ); ?>
+
     <?= $form->field($model, 'tags')->widget(Select2::classname(), [
         'data' => ArrayHelper::map(WpTags::find()->taxonomyTag()->orderBy(['name' => SORT_ASC])->asArray()->all(), 'name', 'name'),
         'options' => ['multiple' => true],

@@ -18,6 +18,7 @@ class m170830_024852_wp_term_relationships extends Migration
         $this->createTable(
             '{{%wp_term_relationships}}',
             [
+                'id'=> $this->bigPrimaryKey(20),
                 'post_id'=> $this->bigInteger(20)->notNull(),
                 'term_taxonomy_id'=> $this->bigInteger(20)->notNull(),
             ],

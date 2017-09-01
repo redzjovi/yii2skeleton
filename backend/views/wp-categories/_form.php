@@ -21,16 +21,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 5]); ?>
 
-    <?php
-    // $form->field($model, 'parent')->widget(Select2::classname(), [
-    //     'data' => ArrayHelper::map($model->categoriesTreeOptions, 'id', 'name_tree'),
-    //     'options' => ['placeholder' => Yii::t('app', 'None')],
-    //     'pluginOptions' => ['allowClear' => true],
-    // ]);
-    ?>
-
     <?= $form->field($model, 'parent')->dropDownList(
-        ArrayHelper::map($model->categoriesTreeOptions, 'id', 'name_tree'),
+        ArrayHelper::map($model->getCategoriesTreeOptions(), 'id', 'tree_name'),
         ['prompt' => Yii::t('app', 'None')]
     ); ?>
 

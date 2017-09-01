@@ -5,7 +5,6 @@ use yii\db\Migration;
 
 class m170829_024559_wp_term_taxonomy extends Migration
 {
-
     public function init()
     {
         $this->db = 'db';
@@ -26,9 +25,9 @@ class m170829_024559_wp_term_taxonomy extends Migration
                 'description'=> $this->text()->notNull(),
                 'parent'=> $this->bigInteger(20)->notNull(),
                 'count'=> $this->bigInteger(20)->notNull(),
-            ],$tableOptions
+            ],
+            $tableOptions
         );
-
     }
 
     public function safeDown()

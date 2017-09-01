@@ -23,7 +23,7 @@ class WpTags extends WpTermTaxonomy
     public function rules()
     {
         return [
-            [['name', 'slug', 'taxonomy', 'count'], 'required'],
+            [['name', 'slug', 'taxonomy'], 'required'],
             [['description'], 'string'],
             [['parent', 'count'], 'integer'],
             [['name', 'slug', 'taxonomy'], 'string', 'max' => 255],
@@ -33,7 +33,7 @@ class WpTags extends WpTermTaxonomy
     public function scenarios()
     {
 		$scenarios = parent::scenarios();
-        $scenarios['backend.wp-tags'] = ['name', 'taxonomy', 'description'];
+        $scenarios['backend.wp-tags'] = ['name', 'taxonomy', 'description', 'parent', 'count'];
         return $scenarios;
     }
 
@@ -69,7 +69,7 @@ class WpTags extends WpTermTaxonomy
      * @param array $names
      * @return array $WpTags
      */
-    public function createTag($names = [])
+    public function createTags($names = [])
     {
         $WpTags = [];
 
