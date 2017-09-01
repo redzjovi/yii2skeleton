@@ -7,6 +7,7 @@ use common\models\WpCategories;
 use common\models\WpPosts;
 use common\models\WpTags;
 use common\models\WpTermRelationships;
+use common\models\WpTermTaxonomy;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -131,8 +132,17 @@ class WpPostsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
 
+        foreach ($model->wpTermRelationships as $WpTermRelationship) {
+            $WpTermRelationship->delete();
+
+            $WpTermTaxonomy = new WpTermTaxonomy();
+            $WpTermTaxonomy->calculateCount($WpTermRelationship->term_taxonomy_id);
+        }
+
+        $model->delete();
+        
         return $this->redirect(['index']);
     }
 
