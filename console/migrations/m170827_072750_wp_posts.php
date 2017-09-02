@@ -19,8 +19,8 @@ class m170827_072750_wp_posts extends Migration
         $this->createTable(
             '{{%wp_posts}}',
             [
-                'id'=> $this->primaryKey(11),
-                'author'=> $this->integer(11)->notNull()->comment('$user->id'),
+                'id'=> $this->bigPrimaryKey(20),
+                'author'=> $this->bigInteger(20)->notNull()->comment('$user->id'),
                 'title'=> $this->text()->notNull(),
                 'name'=> $this->string(255)->notNull(),
                 'content'=> $this->text()->notNull(),
@@ -30,7 +30,7 @@ class m170827_072750_wp_posts extends Migration
                 'created_at'=> $this->timestamp()->null()->defaultValue(null),
                 'updated_at'=> $this->timestamp()->null()->defaultValue(null),
                 'comment_status'=> "enum('open', 'closed') NULL DEFAULT 'open'",
-                'comment_count'=> $this->integer(11)->notNull(),
+                'comment_count'=> $this->bigInteger(11)->notNull(),
             ],
             $tableOptions
         );
