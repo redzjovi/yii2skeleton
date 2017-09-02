@@ -8,7 +8,6 @@ use kartik\widgets\DatePicker;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 $this->title = Yii::t('app', 'Wp Posts');
 $this->params['breadcrumbs'][] = $this->title;
@@ -36,13 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'kartik\grid\SerialColumn'],
 
             // 'id',
-            ['attribute' => 'title', 'contentOptions' => ['class' => 'text-wrap']],
+            ['attribute' => 'title', 'contentOptions' => ['class' => 'text-wrap'], 'vAlign' => 'middle'],
             [
                 'attribute' => 'author',
                 'filter' => ArrayHelper::map(User::find()->orderBy('email')->asArray()->all(), 'id', 'email'),
                 'filterInputOptions' => ['placeholder' => ''],
                 'filterType' => GridView::FILTER_SELECT2,
                 'filterWidgetOptions' => ['pluginOptions' => ['allowClear' => true]],
+                'vAlign' => 'middle',
                 'value' => function ($model) { return $model->user->email; }
             ],
             // 'name',
@@ -62,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'format' => 'html',
                 'label' => Yii::t('app', 'Category'),
+                'vAlign' => 'middle',
                 'value' => function ($model) {
                     $html = '';
                     foreach ($model->wpCategories as $wpCategory) {
@@ -82,6 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]),
                 'format' => 'html',
                 'label' => Yii::t('app', 'Tag'),
+                'vAlign' => 'middle',
                 'value' => function ($model) {
                     $html = '';
                     foreach ($model->wpTags as $wpTag) {
@@ -98,6 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $searchModel,
                     'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-mm-dd'],
                 ]),
+                'vAlign' => 'middle',
             ],
             // 'comment_status',
             // 'comment_count',
