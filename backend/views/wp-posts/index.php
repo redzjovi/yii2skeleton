@@ -64,14 +64,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('app', 'Category'),
                 'value' => function ($model) {
                     $html = '';
-                    foreach ($model->wpTermRelationships as $WpTermRelationship) {
-                        if ($WpTermRelationship->wpCategory) {
-                            $html .= ($html) ? ','.'<br />' : '';
-                            $html .= Html::a($WpTermRelationship->wpCategory->name, ['/wp-categories', 'WpCategoriesSearch[name]' => $WpTermRelationship->wpCategory->name]);
-                        }
+                    foreach ($model->wpCategories as $wpCategory) {
+                        $html .= ($html) ? ','.'<br />' : '';
+                        $html .= Html::a($wpCategory->name, ['/wp-categories', 'WpCategoriesSearch[name]' => $wpCategory->name]);
                     }
                     return $html;
-                }
+                },
             ],
             [
                 'attribute' => 'tag_id',
@@ -86,14 +84,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('app', 'Tag'),
                 'value' => function ($model) {
                     $html = '';
-                    foreach ($model->wpTermRelationships as $WpTermRelationship) {
-                        if ($WpTermRelationship->wpTag) {
-                            $html .= ($html) ? ','.'<br />' : '';
-                            $html .= Html::a($WpTermRelationship->wpTag->name, ['/wp-tags', 'WpTagsSearch[name]' => $WpTermRelationship->wpTag->name]);
-                        }
+                    foreach ($model->wpTags as $wpTag) {
+                        $html .= ($html) ? ','.'<br />' : '';
+                        $html .= Html::a($wpTag->name, ['/wp-tags', 'WpTagsSearch[name]' => $wpTag->name]);
                     }
                     return $html;
-                }
+                },
             ],
             [
                 'attribute' => 'updated_at',

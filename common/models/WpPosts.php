@@ -26,6 +26,8 @@ use yii\helpers\Inflector;
  */
 class WpPosts extends ActiveRecord
 {
+    public $term_taxonomy_id;
+
     public $categories;
     public $tags;
 
@@ -83,10 +85,10 @@ class WpPosts extends ActiveRecord
     public function afterFind()
     {
         parent::afterFind();
-        $WpTermRelationships = WpTermRelationships::find()->where(['post_id' => $this->id])->all();
-        foreach ($WpTermRelationships as $WpTermRelationship) {
-            $this->categories[] = $WpTermRelationship->wpTermTaxonomy->id;
-            $this->tags[] = $WpTermRelationship->wpTermTaxonomy->name;
+        
+        foreach ($this->wpTermTaxonomies as $wpTermTaxonomy) {
+            $this->categories[] = $wpTermTaxonomy->id;
+            $this->tags[] = $wpTermTaxonomy->name;
         }
     }
 
@@ -158,8 +160,29 @@ class WpPosts extends ActiveRecord
         return $this->hasOne(\common\models\User::className(), ['id' => 'author']);
     }
 
+    public function getWpCategories()
+    {
+        return $this->hasMany(WpTermTaxonomy::className(), ['id' => 'term_taxonomy_id'])->andOnCondition(['taxonomy' => 'category'])
+            ->via('wpTermRelationships')
+            ->orderBy(['name' => SORT_ASC]);
+    }
+    
+    public function getWpTags()
+    {
+        return $this->hasMany(WpTermTaxonomy::className(), ['id' => 'term_taxonomy_id'])->andOnCondition(['taxonomy' => 'tag'])
+            ->via('wpTermRelationships')
+            ->orderBy(['name' => SORT_ASC]);
+    }
+
     public function getWpTermRelationships()
     {
         return $this->hasMany(WpTermRelationships::className(), ['post_id' => 'id']);
+    }
+    
+    public function getWpTermTaxonomies()
+    {
+        return $this->hasMany(WpTermTaxonomy::className(), ['id' => 'term_taxonomy_id'])
+            ->via('wpTermRelationships')
+            ->orderBy(['name' => SORT_ASC]);
     }
 }
