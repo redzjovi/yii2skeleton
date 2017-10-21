@@ -73,6 +73,39 @@ class ArrayHelper extends \yii\helpers\ArrayHelper
         return $array;
     }
 
+    /**
+     * get all parents (child-parent)
+     * @param integer $id
+     * @param array $data
+     * @param array $parents
+     * @return array $parents
+     *
+     * @example
+     $categories = [
+         ['id' => 5, 'parent_id' => 4, 'name' => 'Bedroom wear'],
+         ['id' => 6, 'parent_id' => 3, 'name' => 'Rolex'],
+         ['id' => 1, 'parent_id' => 0, 'name' => 'Men'],
+         ['id' => 2, 'parent_id' => 0, 'name' => 'Women'],
+         ['id' => 3, 'parent_id' => 1, 'name' => 'Watches'],
+         ['id' => 4, 'parent_id' => 2, 'name' => 'Bras'],
+         ['id' => 7, 'parent_id' => 2, 'name' => 'Jackets'],
+     ];
+     getParent(6, $categories);
+     */
+    public static function getParent($id, $data, $parents = [])
+    {
+        $index = array_search($id, array_column($data, 'id'));
+        $parent_id = $data[$index]['parent_id'];
+
+        if ($parent_id > 0) {
+            $parent_index = array_search($parent_id, array_column($data, 'id'));
+            array_unshift($parents, $parent_index);
+            return self::getParent($parent_id, $data, $parents);
+        }
+
+        return $parents;
+    }
+
     public static function printTree($elements, $prefix = '-', $parent = 0, $branch = [])
     {
         foreach ($elements as $element) {
