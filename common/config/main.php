@@ -2,6 +2,7 @@
 return [
     'bootstrap' => ['assetsAutoCompress'],
     'language' => 'en',
+    'timeZone' => 'Asia/Jakarta',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'assetsAutoCompress' => [
